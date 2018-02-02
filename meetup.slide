@@ -1,0 +1,135 @@
+Infrastructure components for Kubernetes deployments
+
+Feb 2, 2018
+
+Sergiusz Urbaniak
+Senior Software Engineer, Gesundheitscloud
+sergiusz.urbaniak@gmail.com
+
+* whoami
+
+- Senior Software Engineer at Gesundheitscloud
+- ex-CoreOS
+- ex-Mesosphere
+
+Mostly backend and low level development.
+
+I really like *Go*, lower level semantics, and *Kubernetes*!
+
+* Background
+
+_A_typical_monday_at_CoreOS_
+
+"Hey Alex, Serge, can you please build a new Tectonic (k8s) installer ..."
+
+* Background
+
+"Hey Alex, Serge, can you please build a new Tectonic (k8s) installer ..."
+
+- for AWS
+
+* Background
+
+"Hey Alex, Serge, can you please build a new Tectonic (k8s) installer ..."
+
+- for AWS
+- and Azure
+- and Openstack
+- and VMWare
+- and GCP
+
+* Background
+
+"Hey Alex, Serge, can you please build a new Tectonic (k8s) installer ..."
+
+- for AWS
+- and Azure
+- and Openstack
+- and VMWare
+- and GCP
+- oh ... don't forget Baremetal
+
+* Background
+
+.image https://media.giphy.com/media/ZsCQeG12xHIzu/giphy.gif _ 700
+
+* How to solve this?
+
+.link https://github.com/kelseyhightower/kubernetes-the-hard-way
+
+.image hard-way.png _ 900
+
+* ... meh
+
+.image hard-way-2.png _ 900
+
+* Automate all the things!
+
+.image https://media1.giphy.com/media/Yxoeu3U5wVYVG/giphy.gif _ 700
+
+* NIH
+
+.image terraform.png _ 700
+
+- `HCL` - Hashicorp Configuration language
+- `ICL` - Interpolation configuration language
+
+* An example
+
+.code example.tf
+
+* Bulding blocks
+
+- Compute
+- Network
+- Storage
+
+* Compute
+
+"profiles"
+
+- etcd
+- master
+- worker
+
+* etcd
+
+- just ... uhm ... etcd
+- can be combined with Master
+
+if AKS/EKS: _skip_
+
+* Master
+
+- API server
+- scheduler
+- controller manager
+
+if self-hosted:
+
+- kubelet
+- proxy
+
+if AKS/EKS: _skip_
+
+additional control plane daemons:
+
+- (network) flannel, calico
+- (self-hosted recovery) checkpointer
+
+* Worker
+
+- kubelet
+- proxy
+- your workload
+
+additional control plane daemons:
+- (network) flannel, calico
+
+* Machine "profiles"
+
+- Ignition
+- Cloud Config
+
+Example:
+.code ignition.json
