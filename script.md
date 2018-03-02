@@ -57,9 +57,6 @@ conceptually
 
 https://i.ytimg.com/vi/ZhesewjOZEk/maxresdefault.jpg
 
-https://en.wikipedia.org/wiki/Split-horizon_DNS
-
-"In computer networking, split-horizon DNS, split-view DNS, split-brain DNS, or split DNS is the facility of a Domain Name System (DNS) implementation to provide different sets of DNS information, usually selected by the source address of the DNS request."
 
 Mostly useful for intra cluster communication:
 - internal and external API server address

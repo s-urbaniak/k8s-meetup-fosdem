@@ -16,6 +16,16 @@ Mostly backend and low level development.
 
 I really like *Go*, lower level semantics, and *Kubernetes*!
 
+* Special Guest
+
+*Alex*Somesan*
+
+- AWS veteran (you can see his scars)
+- Terraform magician
+- Azure improviser
+
+Generally a very awesome person
+
 * Background
 
 _A_typical_monday_at_CoreOS_
@@ -49,17 +59,19 @@ _A_typical_monday_at_CoreOS_
 - and GCP
 - oh ... don't forget Baremetal
 
-* Background
+* ok ...
 
 .image https://media.giphy.com/media/ZsCQeG12xHIzu/giphy.gif _ 700
 
 * How to solve this?
 
+When in doubt, ask Kelsey!
+
 .link https://github.com/kelseyhightower/kubernetes-the-hard-way
 
-.image hard-way.png _ 900
+.image Troll-Face.jpg _ 200
 
-* ... meh
+* ... MEH :<
 
 .image hard-way-2.png _ 900
 
@@ -67,22 +79,18 @@ _A_typical_monday_at_CoreOS_
 
 .image https://media1.giphy.com/media/Yxoeu3U5wVYVG/giphy.gif _ 700
 
-* NIH
+* NIH - Infrastructure as code
 
 .image terraform.png _ 700
 
 - `HCL` - Hashicorp Configuration language
 - `ICL` - Interpolation configuration language
 
-* An example
-
-.code example.tf
-
 * Bulding blocks
 
 - Compute
-- Network
 - Storage
+- Network
 
 * Compute
 
@@ -104,18 +112,15 @@ if AKS/EKS: _skip_
 - API server
 - scheduler
 - controller manager
-
-if self-hosted:
-
 - kubelet
 - proxy
-
-if AKS/EKS: _skip_
 
 additional control plane daemons:
 
 - (network) flannel, calico
 - (self-hosted recovery) checkpointer
+
+if AKS/EKS: _skip_
 
 * Worker
 
@@ -126,10 +131,163 @@ additional control plane daemons:
 additional control plane daemons:
 - (network) flannel, calico
 
+* Azure
+
+.code vm-azure.tf
+
+* Vultr
+
+.code vm-vultr.tf
+
+* AWS
+
+.code vm-aws.tf
+
+"An Auto Scaling group contains a collection of VM (EC2) instances that share similar characteristics and are treated as a logical grouping for the purposes of instance scaling and management."
+
+.link https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html
+
 * Machine "profiles"
 
 - Ignition
-- Cloud Config
+- Cloud Init
 
-Example:
+"*Ignition* is a ... provisioning utility ... At the the most basic level, it is a tool for manipulating disks during early boot.
+
+This includes partitioning disks, formatting partitions, writing files (regular files, systemd units, networkd units, etc.), and configuring users."
+
+"*Cloud-init* is the defacto multi-distribution package that handles early initialization of a cloud instance."
+
+* Ignition JSON
+
 .code ignition.json
+
+Please ... don't write this by hand, use this:
+
+.link https://github.com/coreos/container-linux-config-transpiler
+
+.code ignition.ct
+
+* Ignition + Terraform = ❤
+
+.code ignition.tf
+
+`terraform`apply` => Generates Ignition JSON
+
+Also:
+
+.link https://github.com/coreos/terraform-provider-ct
+
+* Storage
+
+- Assigned volumes
+- Block Storage
+- Object Storage
+
+* Network
+
+.image networks.jpeg _ 600
+
+* Network
+
+- Routes
+- Load Balancing
+- Firewall (Security Groups)
+- DNS
+- L2 vs L3
+- Overlay networking
+
+oh my ...
+
+* Let's step back, challanges are:
+
+1. Machine-to-Machine
+
+   10.1.0.0/16
+
+2. Pod-to-Pod ([[https://kubernetes.io/docs/concepts/cluster-administration/networking/]])
+
+   10.2.0.0/16
+
+3. Service network
+
+   10.3.0.0/16   
+
+4. Ingress:
+
+- public ingress
+- k8s API (optional)
+
+* The simple one
+
+- Public
+Machines get public IPs assigned.
+Can be reached from the outside.
+
+- Private
+Machines get cluster internal IPs assigned.
+Cannot be reached from the outside.
+
+* Software defined network topology
+
+- AWS VPC
+- Azure Virtual Network
+
+* AWS ... o.O
+
+.image aws-pvc.png _ 700
+
+* AWS network a la Johannes Ziemke aka "fish"
+
+.image fish-net.png _ 400
+
+.link https://5pi.de/2018/02/01/kubecfn-cloudformation-installer-for-reasonably-secure-multi-master-kubernetes-cluster/
+
+* DNS
+
+Records (A, AAAA ftw):
+
+- Ingress: _public_
+- API server: _private,_optionally_public_
+- etcd: _private_
+- Master nodes: _private_
+- Worker nodes: _private_
+
+* DNS
+
+- Azure
+- DDNS (RFC2136)
+- Designate
+- GCP
+- PowerDNS
+- Route53
+
+*Baremetal*: problematic :<
+
+* DNS - split horizon
+
+.image https://i.ytimg.com/vi/ZhesewjOZEk/maxresdefault.jpg _ 600
+
+"In computer networking, split-horizon DNS, split-view DNS, split-brain DNS, or split DNS is the facility of a Domain Name System (DNS) implementation to provide different sets of DNS information, usually selected by the source address of the DNS request."
+
+.link https://en.wikipedia.org/wiki/Split-horizon_DNS
+
+* DNS - AWS
+
+.code dns.tf
+
+* Load Balancing
+
+Cloud-providers:
+
+- AWS: ELB, ALB
+- Azure Load Balancer
+
+Cheapo providers:
+
+- DIY - deployed as VMs
+- Cloudflare (via a neat DNS trick)
+
+* Thanks!
+
+.image kermit.gif _ 800

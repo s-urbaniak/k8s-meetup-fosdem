@@ -1,0 +1,8 @@
+systemd:
+  units:
+    - name: etcd-member.service
+      dropins:
+        - name: conf1.conf
+          contents: |
+            [Service]
+            Environment="ETCD_NAME=infra0"
