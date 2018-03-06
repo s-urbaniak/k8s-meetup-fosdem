@@ -16,15 +16,11 @@ Mostly backend and low level development.
 
 I really like *Go*, lower level semantics, and *Kubernetes*!
 
-* Special Guest
-
-*Alex*Somesan*
+* Alex Somesan
 
 - AWS veteran (you can see his scars)
 - Terraform magician
 - Azure improviser
-
-Generally a very awesome person
 
 * Background
 
@@ -102,10 +98,50 @@ When in doubt, ask Kelsey!
 
 * etcd
 
-- just ... uhm ... etcd
-- can be combined with Master
+- Hosts etcd
+- Leverages `etcd-member.service`
+- Need a cluster of 1, 3, 5, ...
 
-if AKS/EKS: _skip_
+* etcd discovery
+
+1. DNS (SRV records)
+2. etcd Discovery service
+3. Static
+
+.link https://coreos.com/etcd/docs/latest/v2/clustering.html
+
+* Pros/Cons
+
+1. DNS (SRV records)
+
+*Pro*: DNS dependency only
+
+*Con*: Only one cluster per domain
+
+* Pros/Cons
+
+2. etcd discovery service
+
+*Pro*: No chicken-egg problem with DNS
+
+*Con*: Need a etc discover service, which needs etcd ;-)
+
+* Pros/Cons
+
+3. etcd static discovery (static hostnames)
+
+*Pro*: DNS dependency only
+
+*Con*: DNS names must remain stable
+
+* Example
+
+  [Service]
+  Environment="ETCD_IMAGE_TAG=${version}"
+  ExecStart=
+  ExecStart=/usr/lib/coreos/etcd-wrapper gateway start \
+      --listen-addr=127.0.0.1:2379 \
+      --endpoints=${endpoints}
 
 * Master
 
@@ -120,7 +156,39 @@ additional control plane daemons:
 - (network) flannel, calico
 - (self-hosted recovery) checkpointer
 
-if AKS/EKS: _skip_
+* Master
+
+Two deployment methodologies:
+
+- Self-hosted
+- Static
+
+* Self hosted deployment using bootkube
+
+*Limitation*:
+
+- bootkube can run on at most one machine.
+- We call that machine "bootstrap node".
+
+* Self-hosted deployment
+
+- *Active*: Copy bootstrap assets to target machine
+
+  terraform apply
+  ssh core@master1 "bootkube start"
+
+* Self-hosted deployment
+
+- *Passive*: Let master machine decide
+
+"Poor man's master election":
+
+1. Get my machine ID: *id_m*
+2. Get all machine IDs: *IDs*
+3. Is *id_m*==*min(IDs)* ?
+
+4. If *yes*, start bootkube
+5. If *no*, _exit(0)_
 
 * Worker
 
@@ -178,11 +246,29 @@ Also:
 
 .link https://github.com/coreos/terraform-provider-ct
 
+* Problem
+
+Ignition JSON is distributed via cloud _userdata_.
+
+*Concerns*
+- Security
+- Immutability
+- Size constraints (16kB on AWS)
+
+*Solution*
+- Distribute userdata via object storage, i.e. S3, https
+- Optional: delete userdata after installation
+
 * Storage
 
-- Assigned volumes
-- Block Storage
-- Object Storage
+*Block*Storage*
+- Workload storage
+- Beware of cloud-provider support in Kubernetes!
+- Watch for bugs/vulnerabilities
+
+*Object*Storage*
+- Distribution of Ignition data
+- Distribution of deployment assets
 
 * Network
 
