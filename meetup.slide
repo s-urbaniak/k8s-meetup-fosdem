@@ -274,6 +274,44 @@ Ignition JSON is distributed via cloud _userdata_.
 
 .image networks.jpeg _ 600
 
+* TLS setup - Certificates
+
+- etcd
+
+etcd CA
+etcd client certs
+etcd peer certs
+etcd server certs
+
+* TLS setup - Certificates
+
+- Kubernetes control plane
+
+kube CA
+API Server
+aggregated API Server
+
+* TLS setup - Certificates
+
+- Cluster components
+
+Public CA (i.e. Let's Encrypt)
+Ingress
+Identity
+
+* TLS setup
+
+Strategies:
+
+- Automated, i.e. ACME
+- Static, i.e. provisioned via Terraform
+
+Recommendation:
+- *always* use DNS, never IPs
+
+Problem:
+- Certificate Rotation (still more or less unsolved)
+
 * Network
 
 - PasS SDN vs Overlay network
