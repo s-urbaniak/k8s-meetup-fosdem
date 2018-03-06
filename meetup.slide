@@ -309,15 +309,31 @@ Not necessarily encapsulated
 - K8S ingress 
 - K8S API (optional)
 
-* The simple one
+* Typical layouts
 
-- Public
-Machines get public IPs assigned.
-Can be reached from the outside.
 
-- Private
-Machines get cluster internal IPs assigned.
-Cannot be reached from the outside.
+*Public*
+
+Nodes get public IPs assigned
+
+Can be reached from the outside
+
+Traffic goes throught internet
+
+Only good for demos! ...Seriously!
+
+* Typical layouts
+
+
+*Private* 
+
+Virtual or physical
+
+Nodes get private IPs assigned
+
+Traffic stays in the network
+
+Outside through LBs / NAT
 
 * Software defined network topology
 
