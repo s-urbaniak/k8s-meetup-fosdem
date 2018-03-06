@@ -337,8 +337,13 @@ Outside through LBs / NAT
 
 * Software defined network topology
 
+Most cloud providers do this.
+
 - AWS VPC
 - Azure Virtual Network
+- OpenStack Neutron
+
+You cannot assume implementation as layer 2.
 
 * AWS ... o.O
 
@@ -362,14 +367,16 @@ Records (A, AAAA ftw):
 
 * DNS
 
-- Azure
-- DDNS (RFC2136)
-- Designate
-- GCP
-- PowerDNS
 - Route53
+- Azure
+- GCP
+- Designate
+- PowerDNS (underated!)
+- DDNS (RFC2136)
 
-*Baremetal*: problematic :<
+*Bare metal*: as good as your luck is :<
+
+tip: PowerDNS
 
 * DNS - split horizon
 
@@ -394,6 +401,11 @@ Cheapo providers:
 
 - DIY - deployed as VMs
 - Cloudflare (via a neat DNS trick)
+
+Bare metal:
+
+- F5 BigIp, Citrix Netscaler
+- DIY (at least deploy a pair...)
 
 * Thanks!
 
