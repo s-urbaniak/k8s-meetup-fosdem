@@ -276,33 +276,38 @@ Ignition JSON is distributed via cloud _userdata_.
 
 * Network
 
+- PasS SDN vs Overlay network
 - Routes
 - Load Balancing
 - Firewall (Security Groups)
 - DNS
-- L2 vs L3
-- Overlay networking
 
 oh my ...
+
+Choose wisely
+
+Fear the MTU
 
 * Let's step back, challanges are:
 
 1. Machine-to-Machine
 
    10.1.0.0/16
+Not always Level 2 - has subtle implications
 
 2. Pod-to-Pod ([[https://kubernetes.io/docs/concepts/cluster-administration/networking/]])
 
    10.2.0.0/16
+Not necessarily encapsulated
 
 3. Service network
 
-   10.3.0.0/16   
+   10.3.0.0/16
 
 4. Ingress:
 
-- public ingress
-- k8s API (optional)
+- K8S ingress 
+- K8S API (optional)
 
 * The simple one
 
